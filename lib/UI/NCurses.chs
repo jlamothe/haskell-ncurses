@@ -327,13 +327,13 @@ overlay src mode = withWindow_ "overlay" $ \dst -> case mode of
 --
 -- Use 'overlay' for copying the entire area of a window.
 copyWindow :: Window
-           -> OverlayMode -- Whether to copy blank characters.
-           -> Integer -- Top-most row of the source window's overlay region (sminrow).
-           -> Integer -- Left-most column of the source window's overlay region (smincol).
-           -> Integer -- Top-most row of the destination window's overlay region (dminrow).
-           -> Integer -- Left-most column of the destination window's overlay region (dmincol).
-           -> Integer -- Bottom-most row of the destination window's overlay region (dmaxrow).
-           -> Integer -- Right-most column of the destination window's overlay region (dmaxcol).
+           -> OverlayMode -- ^ Whether to copy blank characters.
+           -> Integer -- ^ Top-most row of the source window's overlay region (sminrow).
+           -> Integer -- ^ Left-most column of the source window's overlay region (smincol).
+           -> Integer -- ^ Top-most row of the destination window's overlay region (dminrow).
+           -> Integer -- ^ Left-most column of the destination window's overlay region (dmincol).
+           -> Integer -- ^ Bottom-most row of the destination window's overlay region (dmaxrow).
+           -> Integer -- ^ Right-most column of the destination window's overlay region (dmaxcol).
            -> Update ()
 copyWindow src mode sminrow smincol dminrow dmincol dmaxrow dmaxcol = withWindow_ "copyWindow" $ \dst -> do
 	{# call copywin #} src dst
@@ -374,12 +374,12 @@ closePad :: Pad -> Curses ()
 closePad (Pad win) = Curses ({# call delwin #} win >>= checkRC "closePad")
 
 updatePad :: Pad
-          -> Integer -- Top-most row of the pad's update region (pminrow).
-          -> Integer -- Left-most column of the pad's update region (pmincol).
-          -> Integer -- Top-most row of the screen's update region (sminrow).
-          -> Integer -- Left-most column of the screen's update region (smincol).
-          -> Integer -- Bottom-most row of the screen's update region (smaxrow).
-          -> Integer -- Right-most column of the screen's update region (smaxcol).
+          -> Integer -- ^ Top-most row of the pad's update region (pminrow).
+          -> Integer -- ^ Left-most column of the pad's update region (pmincol).
+          -> Integer -- ^ Top-most row of the screen's update region (sminrow).
+          -> Integer -- ^ Left-most column of the screen's update region (smincol).
+          -> Integer -- ^ Bottom-most row of the screen's update region (smaxrow).
+          -> Integer -- ^ Right-most column of the screen's update region (smaxcol).
           -> Update a
           -> Curses a
 updatePad (Pad win) pminrow pmincol sminrow smincol smaxrow smaxcol (Update reader) = do
@@ -591,7 +591,7 @@ data Color
 	| Color Int16
 	deriving (Show, Eq)
 
--- Get the maximum 'Color' supported by the current terminal.
+-- | Get the maximum 'Color' supported by the current terminal.
 maxColor :: Curses Integer
 maxColor = Curses $ do
 	count <- toInteger `fmap` peek c_COLORS
@@ -682,7 +682,7 @@ newColorID fg bg n = Curses $ do
 		(colorToShort bg)
 	return (ColorID (fromInteger n))
 
--- Change the definition of an existing 'ColorID'
+-- | Change the definition of an existing 'ColorID'
 setColorID :: Color -- ^ Foreground
            -> Color -- ^ Background
            -> ColorID -- ^ The 'ColorID' to change
